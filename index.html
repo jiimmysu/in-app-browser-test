@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>in-app Browser 功能測試頁</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script>
+                function test_confirm(){
+                    if (confirm('confirm 確認視窗功能測試')) {
+                        $('#isConfirm').text('按了確定');
+                    }
+                    else {
+                        $('#isConfirm').text('按了取消');
+                    }
+                }
+        </script>
+        <style>
+            h1{padding:10px}
+            .row>.col-sm-4{margin-bottom: 15px}
+            .card{margin-top:10px;height:100%}
+            .btn{margin-bottom: 5px}
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="row">
+                    <div class="col-sm-4">
+                        <div class="card">
+                            <div class="card-body">
+                              <h4 class="card-title">Alert() 功能測試</h4>
+                              <p class="card-text">有些 in-app Browser 點擊下方按鈕後，不會跳出 hey</p>
+                              <a href="#" class="btn btn-primary" onclick="alert('hey')">點擊測試</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4">
+                        <div class="card">
+                            <div class="card-body">
+                              <h4 class="card-title">confirm() 功能測試</h4>
+                              <p class="card-text">有些 in-app Browser 點擊下方按鈕後，不會跳出確認視窗</p>
+                              <a href="#" class="btn btn-primary" onclick="test_confirm()">點擊測試</a>
+                            </div>
+                            <div class="card-footer text-muted">
+                                返回值：<span id="isConfirm">尚未點擊</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4">
+                        <div class="card">
+                            <div class="card-body">
+                              <h4 class="card-title">Facebook 分享視窗測試</h4>
+                              <p class="card-text">
+                                使用 in-app Browser 瀏覽器，可能碰到以下狀況:
+                                <ul>
+                                    <li>按取消，仍會得到分享成功。</li>
+                                    <li>成功分享後，可能會卡在一個白畫面，無法回到網頁。</li>
+                                </ul>
+                              </p>
+                              <a href="#" class="btn btn-primary" onclick="test_share()">點擊測試</a>
+                            </div>
+                            <div class="card-footer text-muted">
+                                <span id="fb_respone2">尚未點擊</span>，<span id="fb_respone"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4">
+                        <div class="card">
+                            <img class="card-img-top" src="287.jpg" alt="Card image cap">
+                            <div class="card-body">
+                              <h4 class="card-title">儲存圖片功能測試</h4>
+                              <p class="card-text">有些 in-app Browser 長按圖片時，不會跳出下載功能。</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4">
+                        <div class="card">
+                            <div class="card-body">
+                            <h4 class="card-title">window.open 與跨視窗控制</h4>
+                            <p class="card-text">有些 in-app Browser 無法開啟彈跳視窗。</p>
+                            <a href="javascript:void(0)" class="btn btn-primary" onclick="window.open('http://www.google.com', 'popup', 'width=' + window.innerWidth + ',height=' + window.innerHeight + ',scrollbars=no');">開啟一個有 Google 的彈跳視窗</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4">
+                            <div class="card">
+                                <div class="card-body">
+                                <h4 class="card-title">跨視窗控制</h4>
+                                <p class="card-text">有些 in-app Browser 無法開啟彈跳視窗，也無法正常進行各項操作。</p>
+                                <a href="javascript:void(0)" class="btn btn-primary" onclick="op()">開啟空白彈跳視窗</a>
+                                <input class="btn btn-primary" type="button" value="最小化空白彈跳視窗" onclick="if(win&&win.open&&!win.closed){win.resizeTo(0,0);win.moveTo(0,window.screen.width);}else alert('找不到視窗')">
+                                <input class="btn btn-primary" type="button" value="最大化空白彈跳視窗" onclick="if(win&&win.open&&!win.closed){win.moveTo(-4,-4);win.resizeTo(screen.availWidth+8,screen.availHeight+8);}else alert('找不到視窗');">
+                                <input class="btn btn-primary" type=button value="關閉空白彈跳視窗" onclick="if(win&&win.open&&!win.closed){win.opener=null;win.close()}else alert('找不到視窗')">
+                                <input class="btn btn-primary" type=button value="空白彈跳視窗重新整理" onclick="if(win&&win.open&&!win.closed){win.location.reload();win.focus()}else alert('找不到視窗')">
+                                <input class="btn btn-primary" type="button" value="看空白彈跳視窗的大小" onclick="if(win&&win.open&&!win.closed){alert(win.document.body.clientWidth+'*'+win.document.body.clientHeight);win.focus();}else{alert('找不到視窗')};">
+                                </div>
+                            </div>
+                    </div>
+
+
+            </div>
+            <div id="ua"></div>
+        </div>
+
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+        <script>
+
+            window.fbAsyncInit = function () {
+               FB.init({
+                   appId: '111081892978740',
+                   xfbml: true,
+                   version: 'v2.10'
+               });
+               FB.AppEvents.logPageView();
+            };
+
+            (function (d, s, id) {
+               var js, fjs = d.getElementsByTagName(s)[0];
+               if (d.getElementById(id)) { return; }
+               js = d.createElement(s); js.id = id;
+               js.src = "//connect.facebook.net/zh_TW/sdk.js";
+               fjs.parentNode.insertBefore(js, fjs);
+            }(document, 'script', 'facebook-jssdk'));
+
+            function test_share() {
+               FB.ui(
+                     {
+                         method: 'share',
+                         mobile_iframe: true,
+                         href: 'https://www.google.com',
+                     },
+                     function (response) {
+                         $('#fb_respone').text('返回值 response:'+response+'\n response.error_message:'+response.error_message+'\n id:'+response.post_id)
+                         if (response && !response.error_message) {
+                            $('#fb_respone2').text('分享結果：成功分享')
+                         } else {
+                            $('#fb_respone2').text('分享結果：分享失敗')
+                         }
+                     }
+               );
+            }
+
+            var win=null;
+            function op(){
+                win=window.open("about:blank","win","width=200,height=200");
+                win.document.write("<input type='button' value='關閉此彈跳視窗' onclick='window.close()'>");
+                win.document.write("<input type='button' value='刷新父窗口' onclick='window.opener.location.reload()'>");
+            }
+
+            $(function(){
+
+            })
+
+            $('#ua').text(navigator.userAgent);
+            if (/Mobi/.test(navigator.userAgent)) {
+                if (/Line/.test(navigator.userAgent)||/FBAV/.test(navigator.userAgent)||/FBIOS/.test(navigator.userAgent)){
+                    $('body').prepend('<h1>看起來你正在使用 in-app browser 呢!</h1>')
+                }
+            }
+        </script>
+    </body>
+</html>
