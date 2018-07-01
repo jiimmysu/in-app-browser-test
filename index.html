@@ -10,7 +10,7 @@
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
-        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js" ></script>
         <script>
                 function test_confirm(){
                     if (confirm('confirm 確認視窗功能測試')) {
@@ -23,7 +23,7 @@
         </script>
         <style>
             h1{padding:10px}
-            .row>.col-sm-4{margin-bottom: 15px}
+            .row>div{margin-bottom: 15px}
             .card{margin-top:10px;height:100%}
             .btn{margin-bottom: 5px}
         </style>
@@ -31,7 +31,7 @@
     <body>
         <div class="container">
             <div class="row">
-                    <div class="col-sm-4">
+                    <div class="col-lg-4 col-sm-6">
                         <div class="card">
                             <div class="card-body">
                               <h4 class="card-title">Alert() 功能測試</h4>
@@ -41,7 +41,7 @@
                         </div>
                     </div>
 
-                    <div class="col-sm-4">
+                    <div class="col-lg-4 col-sm-6">
                         <div class="card">
                             <div class="card-body">
                               <h4 class="card-title">confirm() 功能測試</h4>
@@ -54,7 +54,7 @@
                         </div>
                     </div>
 
-                    <div class="col-sm-4">
+                    <div class="col-lg-4 col-sm-6">
                         <div class="card">
                             <div class="card-body">
                               <h4 class="card-title">Facebook 分享視窗測試</h4>
@@ -73,7 +73,7 @@
                         </div>
                     </div>
 
-                    <div class="col-sm-4">
+                    <div class="col-lg-4 col-sm-6">
                         <div class="card">
                             <img class="card-img-top" src="287.jpg" alt="Card image cap">
                             <div class="card-body">
@@ -83,7 +83,7 @@
                         </div>
                     </div>
 
-                    <div class="col-sm-4">
+                    <div class="col-lg-4 col-sm-6">
                         <div class="card">
                             <div class="card-body">
                             <h4 class="card-title">window.open 與跨視窗控制</h4>
@@ -93,7 +93,7 @@
                         </div>
                     </div>
 
-                    <div class="col-sm-4">
+                    <div class="col-lg-4 col-sm-6">
                             <div class="card">
                                 <div class="card-body">
                                 <h4 class="card-title">跨視窗控制</h4>
@@ -108,6 +108,39 @@
                             </div>
                     </div>
 
+                    <div class="col-lg-4 col-sm-6">
+                        <div class="card">
+                            <div class="card-body">
+                              <h4 class="card-title">Facebook Login API 測試</h4>
+                              <p class="card-text">
+                                有些 in-app Browser 瀏覽器，按下同意授權後，卡在一個白畫面，無法回到原來的網頁。
+                              </p>
+                              <div id="fb-root"></div>
+                              <fb:login-button scope="public_profile,email" onlogin="checkLoginState();"></fb:login-button>
+                              
+                            </div>
+                            <div class="card-footer text-muted">
+                                <div id="fblogin_status"></div>                          
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-sm-6">
+                        <div class="card">
+                            <div class="card-body">
+                              <h4 class="card-title">HTML5 Geolocation 測試</h4>
+                              <p class="card-text">
+                                有些 in-app Browser 瀏覽器，按下同意授權位置訊息後，程式卻無法正常接收經緯度。
+                              </p>          
+                              <a href="javascript:void(0)" class="btn btn-primary" onclick="getgps()">測試取得 GPS 位置</a>                    
+                              <div id="map-preview"></div> 
+                            </div>
+                            <div class="card-footer text-muted">
+                                <div id="geomsg" style="display:none">擷取地理資訊中…</div>                                                                 
+                            </div>
+                        </div>
+                    </div>
+
 
             </div>
             <div id="ua"></div>
@@ -117,12 +150,13 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
         <script>
-
+            // FB 初始化
             window.fbAsyncInit = function () {
                FB.init({
                    appId: '111081892978740',
                    xfbml: true,
-                   version: 'v2.10'
+                   cookie: true,
+                   version: 'v3.0'
                });
                FB.AppEvents.logPageView();
             };
@@ -135,6 +169,7 @@
                fjs.parentNode.insertBefore(js, fjs);
             }(document, 'script', 'facebook-jssdk'));
 
+            // FB 分享
             function test_share() {
                FB.ui(
                      {
@@ -153,6 +188,7 @@
                );
             }
 
+            // 開彈跳視窗
             var win=null;
             function op(){
                 win=window.open("about:blank","win","width=200,height=200");
@@ -160,16 +196,86 @@
                 win.document.write("<input type='button' value='刷新父窗口' onclick='window.opener.location.reload()'>");
             }
 
-            $(function(){
+            // FB登入 (官方範例)
+            function statusChangeCallback(response) {
+                console.log('statusChangeCallback');
+                console.log(response);
+                if (response.status === 'connected') {
+                    testAPI();
+                } else {
+                    document.getElementById('fblogin_status').innerHTML = 'Please log ' + 'into this app.';
+                }
+            }
+            
+            function checkLoginState() {
+                FB.getLoginStatus(function (response) {
+                    statusChangeCallback(response);
+                });
+            }
 
-            })
+            function testAPI() {
+                console.log('Welcome!  Fetching your information.... ');
+                FB.api('/me', function (response) {
+                    console.log('Successful login for: ' + response.name);
+                    document.getElementById('fblogin_status').innerHTML =
+                    'Thanks for logging in, ' + response.name + '!';
+                });
+            }
 
+            // 簡易偵測
             $('#ua').text(navigator.userAgent);
             if (/Mobi/.test(navigator.userAgent)) {
                 if (/Line/.test(navigator.userAgent)||/FBAV/.test(navigator.userAgent)||/FBIOS/.test(navigator.userAgent)){
                     $('body').prepend('<h1>看起來你正在使用 in-app browser 呢!</h1>')
                 }
             }
+
+            // 地理資訊
+            function getgps(){
+                $('#geomsg').fadeIn();
+                if (!navigator.geolocation) {
+                    $('#geomsg').append("<p>取得位置失敗，您的網頁瀏覽器無法使用此功能，建議使用 Safari 或 Google Chrome</p>");        
+                }
+                function success(position) {
+                    if (/Mobi/.test(navigator.userAgent) || /Andr/.test(navigator.userAgent)) {
+                        var latitude = position.coords.latitude;
+                        var longitude = position.coords.longitude;                        
+                        var accuracy = position.coords.accuracy;                        
+                        var geomsg = "<br><span class='glyphicon glyphicon-ok'></span> 能成功取得您的位置";                                                
+
+                        $('#geomsg').html(geomsg);
+                        $('#map-preview').append('目前大概位置預覽:<img style="pointer-events: none;" class="img-fluid" src= "https://maps.googleapis.com/maps/api/staticmap?zoom=18&size=400x400&center='+ latitude + ',' + longitude + '&maptype=roadmap&markers=color:red%7Clabel:S%7C'+ latitude + ',' + longitude +'"><br>緯度:'+ latitude +'<br>經度'+ longitude +'<br>準確度(accuracy):'+ accuracy +'');
+                        //$('#map-preview').append('位置預覽:<img class="img-responsive" src= "https://maps.googleapis.com/maps/api/staticmap?zoom=19&size=400x400&center='+ latitude + ',' + longitude + '&maptype=roadmap&markers=color:red%7Clabel:S%7C'+ latitude + ',' + longitude +'">');
+                        if (accuracy > 500) {
+                            $('#geomsg').append('<p>您的地理位置誤差過大，建議重新開啟裝置的 GPS 定位或網路並重新整理。</p>');
+                        }                        
+                    }
+                    else {
+                        $('#geomsg').append('<p>位置取得失敗，<br>請使用行動裝置(智慧型手機/平板)操作。</p>');
+                    }                    
+                }
+                                 
+
+                function error() {
+                    geomsg = "<br>無法取得您的位置。<ol><li>請選擇「允許」網頁取用位置，</li><li>檢查 WiFi/3G/4G 數據連線是否開啟並正常連線</li><li>檢查手機通知中心中的 GPS 定位是否已開啟</li><li>換一個看得到天空或是收訊良好的位置</li><li>系統設定內的定位服務請設為開啟(<a href='https://support.apple.com/zh-tw/HT207092' target='_blank'>iPhone 設定步驟</a>/<a href='https://support.google.com/accounts/answer/3467281?hl=zh-Hant' target='_blank'>Android 設定步驟</a>)</li></ol>";
+                    $('#geomsg').html(geomsg);
+                }
+
+                geomsg = "<p>擷取地理資訊中…</p>";
+                var geo_options = {
+                    enableHighAccuracy: true,
+                    maxmumAge: 60000,
+                    timeout: 10000
+                };
+                navigator.geolocation.getCurrentPosition(success, error, geo_options);      
+            }
+            
+
+    
+      
+
+
+            
         </script>
     </body>
 </html>
