@@ -141,6 +141,39 @@
                         </div>
                     </div>
 
+                    <div class="col-lg-4 col-sm-6">
+                        <div class="card">
+                            <div class="card-body">
+                              <h4 class="card-title">列印測試</h4>
+                              <p class="card-text">
+                                有些 in-app Browser 瀏覽器，按下列印之後，不會跳出預覽列印視窗。
+                              </p>          
+                              <a href="javascript:void(0)" class="btn btn-primary" onclick="window.print()">列印</a>                    
+                            </div>
+                            <div class="card-footer text-muted">
+                                typeof(window.print) === 'function':<span id="printmsg"></span>                                                                 
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-sm-6">
+                        <div class="card">
+                            <div class="card-body">
+                              <h4 class="card-title">檔案選擇測試</h4>
+                              <p class="card-text">
+                                有些 in-app Browser 瀏覽器，按了瀏覽檔案之後，畫面毫無反應。
+                              </p>
+                              一般型<input type="file">   
+                              <br>
+                              <br>
+                              只能上傳圖片<input type="file" accept="image/*">         
+                              <br>
+                              <br>
+                              只能上傳圖片，呼叫照相機<input type="file" accept="image/*" capture>                        
+                            </div>                            
+                        </div>
+                    </div>
+
 
             </div>
             <div id="ua"></div>
@@ -270,11 +303,7 @@
                 navigator.geolocation.getCurrentPosition(success, error, geo_options);      
             }
             
-
-    
-      
-
-
+            $('#printmsg').text(typeof(window.print) === 'function')
             
         </script>
     </body>
