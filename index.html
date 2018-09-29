@@ -27,10 +27,12 @@
             .card{margin-top:10px;height:100%}
             .btn{margin-bottom: 5px}
             .btn-fullscreen-exit{position: fixed;bottom:10%;left:50%;transform: translateX(-50%)}
+            .col-form-label{font-size: 11px;}
         </style>
         <link rel="manifest" href="manifest.json" />
         <link rel="icon" type="image/png" href="favicon.png" />
         <link href="favicon.png" rel="shortcut icon" type="image/x-icon" />
+        <link rel="apple-touch-icon" href="favicon.png">    
     </head>
     <body>
         <div class="container">
@@ -135,14 +137,14 @@
                             <div class="card-body">
                               <h4 class="card-title">Facebook Login API 測試</h4>
                               <p class="card-text">
-                                有些 in-app Browser 瀏覽器，按下同意授權後，卡在一個白畫面，無法回到原來的網頁。
+                                有些 in-app Browser 瀏覽器，按下同意授權後，卡在一個白畫面，無法回到原來的網頁。或是無法傳回任何值。
                               </p>
                               <div id="fb-root"></div>
                               <fb:login-button scope="public_profile,email" onlogin="checkLoginState();"></fb:login-button>
                               
                             </div>
                             <div class="card-footer text-muted">
-                                <div id="fblogin_status"></div>                          
+                                <div id="fblogin_status">尚未點擊 FB 登入按鈕</div>                          
                             </div>
                         </div>
                     </div>
@@ -237,11 +239,54 @@
                         </div>
                     </div>
 
+                    <div class="col-lg-4 col-sm-6">
+                        <div class="card">
+                            <div class="card-body">
+                              <h4 class="card-title">input autocomplete test</h4>
+                              <p class="card-text">
+                                有些瀏覽器版本很舊，自動完成功能也可以直接填入瀏覽器已記錄的信用卡資訊。
+                              </p>          
+                              <!-- https://developers.google.com/web/updates/2015/06/checkout-faster-with-autofill -->
+                              <div class="form-group row">
+                                    <label for="frmEmailA" class="col-sm-3 col-form-label">Email</label>
+                                    <div class="col-sm-9"><input type="email" name="email" id="frmEmailA" class="form-control" placeholder="name@example.com" required autocomplete="email"></div>
+
+                                    <label class="col-sm-3 col-form-label" for="frmPhoneNumA">Phone</label>
+                                    <div class="col-sm-9"><input type="tel" name="phone" id="frmPhoneNumA" class="form-control" placeholder="+1-650-450-1212" required autocomplete="tel"></div>
+
+                                    <label class="col-sm-3 col-form-label" for="frmAddressS">Address</label>
+                                    <div class="col-sm-9"><input name="ship-address" required id="frmAddressS" class="form-control" placeholder="123 Any Street" autocomplete="shipping street-address"></div>
+                              
+                                    <label class="col-sm-3 col-form-label" for="frmCityS">City</label>
+                                    <div class="col-sm-9"><input name="ship-city" required id="frmCityS" class="form-control" placeholder="New York" autocomplete="shipping locality"></div>
+
+                                    <label class="col-sm-3 col-form-label" for="frmStateS">State</label>
+                                    <div class="col-sm-9"><input name="ship-state" required id="frmStateS" class="form-control" placeholder="NY" autocomplete="shipping region"></div>
+
+                                    <label class="col-sm-3 col-form-label" for="frmZipS">Zip</label>
+                                    <div class="col-sm-9"><input name="ship-zip" required id="frmZipS" class="form-control" placeholder="10011" autocomplete="shipping postal-code"></div>
+
+                                    <label class="col-sm-3 col-form-label" for="frmCountryS">Country</label>
+                                    <div class="col-sm-9"><input name="ship-country" required id="frmCountryS" class="form-control" placeholder="USA" autocomplete="shipping country"></div>
+
+                                    <label class="col-sm-3 col-form-label" for="frmCCNum">Card Number</label>
+                                    <div class="col-sm-9"><input name="cardnumber" id="frmCCNum" required class="form-control" autocomplete="cc-number"></div>
+                                    
+                                    <label class="col-sm-3 col-form-label" for="frmCCCVC">CVC</label>
+                                    <div class="col-sm-9"><input name="cvc" id="frmCCCVC" required class="form-control" autocomplete="cc-csc"></div>
+                                    
+                                    <label class="col-sm-3 col-form-label" for="frmCCExp">Expiry</label>
+                                    <div class="col-sm-9"><input name="cc-exp" id="frmCCExp" required class="form-control" placeholder="MM-YYYY" autocomplete="cc-exp"></div>                             
+                                </div>
+                            </div>                                                      
+                        </div>
+                    </div>
+
 
 
 
             </div>
-            <div id="ua"></div>
+            <div id="ua" class="alert alert-warning"></div>
         </div>
 
 
