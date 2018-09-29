@@ -26,6 +26,7 @@
             .row>div{margin-bottom: 15px}
             .card{margin-top:10px;height:100%}
             .btn{margin-bottom: 5px}
+            .btn-fullscreen-exit{position: fixed;bottom:10%;left:50%;transform: translateX(-50%)}
         </style>
     </head>
     <body>
@@ -170,9 +171,50 @@
                               <br>
                               <br>
                               只能上傳圖片，呼叫照相機<input type="file" accept="image/*" capture>                        
-                            </div>                            
+                            </div> 
+                            <div class="card-footer text-muted">
+                                檔案名稱:<span id="filename">尚未選擇</span>                                                                 
+                            </div>                           
                         </div>
                     </div>
+
+                    <div class="col-lg-4 col-sm-6">
+                        <div class="card">
+                            <div class="card-body">
+                              <h4 class="card-title">PWA 模式測試</h4>
+                              <p class="card-text">
+                                若同時滿足以下條件：<br>
+                                - 網頁有 HTTPS <br>
+                                - 使用者使用 iOS 11.3+ 的 Safari 或 Android 的 Google Chrome 40+<br>
+                                - 將網頁加入到主畫面（釘選至桌面），並從這個桌面捷徑開啟網頁<br>
+                                <br>
+                                將導致網頁可能用一種無瀏覽器工具列的 web app 模式開啟。<br>
+                                本頁所提問題同樣有可能出現在 PWA 偽網頁 app 模式中。
+                              </p>                                                   
+                            </div> 
+                            <div class="card-footer text-muted">
+                                <span id="isPWA">無法檢測</span>                                                                 
+                            </div>                           
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-sm-6">
+                        <div class="card">
+                            <div class="card-body">
+                              <h4 class="card-title">全螢幕測試</h4>
+                              <p class="card-text">
+                                有些 in-app Browser 瀏覽器，無法使用 HTML5 Fullscreen API 讓網頁全螢幕。
+                              </p>          
+                              <a href="javascript:void(0)" onclick="fullscreen($(this))" class="btn btn-primary btn-fullscreen"><span class="glyphicon glyphicon-resize-full"></span>全螢幕</a>                        
+                              <a href="javascript:void(0)" onclick="fullscreen_exit($(this))" class="btn btn-warning btn-fullscreen-exit" style="display: none;"><span class="glyphicon glyphicon-resize-small"></span>離開全螢幕</a>                                       
+                            </div> 
+                            <div class="card-footer text-muted">
+                                <span id="isiOS">iOS 無法使用本功能</span>                                                                 
+                            </div>                           
+                        </div>
+                    </div>
+
+
 
 
             </div>
@@ -303,7 +345,39 @@
                 navigator.geolocation.getCurrentPosition(success, error, geo_options);      
             }
             
+            // 檔案上傳
+            $('input[type=file]').change(function() {
+                var filename = $(this).val();
+                $('#filename').html(filename);
+            });
+
+            // 列印            
             $('#printmsg').text(typeof(window.print) === 'function')
+
+            // pwa
+            window.matchMedia('(display-mode: standalone)').matches ? $('#isPWA').html('PWA模式') : $('#isPWA').html('非 PWA 模式');
+
+            // full scren
+            //v3.3.3 https://github.com/sindresorhus/screenfull.js/
+            (function(){'use strict';var document=typeof window!=='undefined'&&typeof window.document!=='undefined'?window.document:{};var isCommonjs=typeof module!=='undefined'&&module.exports;var keyboardAllowed=typeof Element!=='undefined'&&'ALLOW_KEYBOARD_INPUT'in Element;var fn=(function(){var val;var fnMap=[['requestFullscreen','exitFullscreen','fullscreenElement','fullscreenEnabled','fullscreenchange','fullscreenerror'],['webkitRequestFullscreen','webkitExitFullscreen','webkitFullscreenElement','webkitFullscreenEnabled','webkitfullscreenchange','webkitfullscreenerror'],['webkitRequestFullScreen','webkitCancelFullScreen','webkitCurrentFullScreenElement','webkitCancelFullScreen','webkitfullscreenchange','webkitfullscreenerror'],['mozRequestFullScreen','mozCancelFullScreen','mozFullScreenElement','mozFullScreenEnabled','mozfullscreenchange','mozfullscreenerror'],['msRequestFullscreen','msExitFullscreen','msFullscreenElement','msFullscreenEnabled','MSFullscreenChange','MSFullscreenError']];var i=0;var l=fnMap.length;var ret={};for(;i<l;i++){val=fnMap[i];if(val&&val[1]in document){for(i=0;i<val.length;i++){ret[fnMap[0][i]]=val[i];}
+return ret;}}
+return false;})();var eventNameMap={change:fn.fullscreenchange,error:fn.fullscreenerror};var screenfull={request:function(elem){var request=fn.requestFullscreen;elem=elem||document.documentElement;if(/ Version\/5\.1(?:\.\d+)? Safari\//.test(navigator.userAgent)){elem[request]();}else{elem[request](keyboardAllowed?Element.ALLOW_KEYBOARD_INPUT:{});}},exit:function(){document[fn.exitFullscreen]();},toggle:function(elem){if(this.isFullscreen){this.exit();}else{this.request(elem);}},onchange:function(callback){this.on('change',callback);},onerror:function(callback){this.on('error',callback);},on:function(event,callback){var eventName=eventNameMap[event];if(eventName){document.addEventListener(eventName,callback,false);}},off:function(event,callback){var eventName=eventNameMap[event];if(eventName){document.removeEventListener(eventName,callback,false);}},raw:fn};if(!fn){if(isCommonjs){module.exports=false;}else{window.screenfull=false;}
+return;}
+Object.defineProperties(screenfull,{isFullscreen:{get:function(){return Boolean(document[fn.fullscreenElement]);}},element:{enumerable:true,get:function(){return document[fn.fullscreenElement];}},enabled:{enumerable:true,get:function(){return Boolean(document[fn.fullscreenEnabled]);}}});if(isCommonjs){module.exports=screenfull;}else{window.screenfull=screenfull;}})();
+
+
+            function fullscreen(){
+                $('.btn-fullscreen').hide();
+                $('.btn-fullscreen-exit').show();
+                screenfull.request(document.querySelector('body'));     
+            }        
+
+            function fullscreen_exit(){
+                $('.btn-fullscreen').show();
+                $('.btn-fullscreen-exit').hide();
+                screenfull.exit();                           
+            }
+
             
         </script>
     </body>
