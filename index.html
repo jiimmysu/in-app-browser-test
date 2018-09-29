@@ -28,6 +28,9 @@
             .btn{margin-bottom: 5px}
             .btn-fullscreen-exit{position: fixed;bottom:10%;left:50%;transform: translateX(-50%)}
         </style>
+        <link rel="manifest" href="manifest.json" />
+        <link rel="icon" type="image/png" href="favicon.png" />
+        <link href="favicon.png" rel="shortcut icon" type="image/x-icon" />
     </head>
     <body>
         <div class="container">
@@ -87,7 +90,7 @@
                     <div class="col-lg-4 col-sm-6">
                         <div class="card">
                             <div class="card-body">
-                            <h4 class="card-title">window.open 與跨視窗控制</h4>
+                            <h4 class="card-title">window.open</h4>
                             <p class="card-text">有些 in-app Browser 無法開啟彈跳視窗。</p>
                             <a href="javascript:void(0)" class="btn btn-primary" onclick="window.open('http://www.google.com', 'popup', 'width=' + window.innerWidth + ',height=' + window.innerHeight + ',scrollbars=no');">開啟一個有 Google 的彈跳視窗</a>
                             </div>
@@ -95,11 +98,29 @@
                     </div>
 
                     <div class="col-lg-4 col-sm-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">target="_blank" 開新視窗與原視窗控制</h4>
+                                <p class="card-text">用 target="_blank" 開新視窗時，使用 window.opener 修改原視窗內容。此功能可能會被瀏覽器視為安全漏洞而無法使用。</p>
+                                <a href="https://www.google.com" class="btn btn-primary btn-open-blank-link" target="_blank">用新視窗開啟 Google</a>
+                            </div>
+                            <div class="card-footer text-muted">
+                                <div id="blankstat">尚未點擊用新視窗開啟 Google</div>                          
+                            </div>
+                        </div>
+                        
+                    </div>
+
+                    <div class="col-lg-4 col-sm-6">
                             <div class="card">
                                 <div class="card-body">
                                 <h4 class="card-title">跨視窗控制</h4>
                                 <p class="card-text">有些 in-app Browser 無法開啟彈跳視窗，也無法正常進行各項操作。</p>
+                                先按下方鈕開啟空白彈跳視窗，且不要關閉<br>
                                 <a href="javascript:void(0)" class="btn btn-primary" onclick="op()">開啟空白彈跳視窗</a>
+                                <br>
+                                <br>
+                                再按以下按鈕，控制剛剛開啟的彈跳視窗<br>
                                 <input class="btn btn-primary" type="button" value="最小化空白彈跳視窗" onclick="if(win&&win.open&&!win.closed){win.resizeTo(0,0);win.moveTo(0,window.screen.width);}else alert('找不到視窗')">
                                 <input class="btn btn-primary" type="button" value="最大化空白彈跳視窗" onclick="if(win&&win.open&&!win.closed){win.moveTo(-4,-4);win.resizeTo(screen.availWidth+8,screen.availHeight+8);}else alert('找不到視窗');">
                                 <input class="btn btn-primary" type=button value="關閉空白彈跳視窗" onclick="if(win&&win.open&&!win.closed){win.opener=null;win.close()}else alert('找不到視窗')">
@@ -129,7 +150,7 @@
                     <div class="col-lg-4 col-sm-6">
                         <div class="card">
                             <div class="card-body">
-                              <h4 class="card-title">HTML5 Geolocation 測試</h4>
+                              <h4 class="card-title">HTML5 Geolocation API</h4>
                               <p class="card-text">
                                 有些 in-app Browser 瀏覽器，按下同意授權位置訊息後，程式卻無法正常接收經緯度。
                               </p>          
@@ -160,7 +181,7 @@
                     <div class="col-lg-4 col-sm-6">
                         <div class="card">
                             <div class="card-body">
-                              <h4 class="card-title">檔案選擇測試</h4>
+                              <h4 class="card-title">File input 檔案選擇測試</h4>
                               <p class="card-text">
                                 有些 in-app Browser 瀏覽器，按了瀏覽檔案之後，畫面毫無反應。
                               </p>
@@ -184,10 +205,12 @@
                               <h4 class="card-title">PWA 模式測試</h4>
                               <p class="card-text">
                                 若同時滿足以下條件：<br>
-                                - 網頁有 HTTPS <br>
-                                - 使用者使用 iOS 11.3+ 的 Safari 或 Android 的 Google Chrome 40+<br>
-                                - 將網頁加入到主畫面（釘選至桌面），並從這個桌面捷徑開啟網頁<br>
-                                <br>
+                                <ul>
+                                    <li>網頁有 HTTPS</li>
+                                    <li>開發者為網頁加入 manifest.json 設定檔</li>
+                                    <li>使用者使用 iOS 11.3+ 的 Safari 或 Android 的 Google Chrome 40+</li>
+                                    <li>使用者將網頁加入到主畫面（釘選至桌面），並從這個桌面捷徑開啟網頁</li>
+                                </ul>
                                 將導致網頁可能用一種無瀏覽器工具列的 web app 模式開啟。<br>
                                 本頁所提問題同樣有可能出現在 PWA 偽網頁 app 模式中。
                               </p>                                                   
@@ -201,7 +224,7 @@
                     <div class="col-lg-4 col-sm-6">
                         <div class="card">
                             <div class="card-body">
-                              <h4 class="card-title">全螢幕測試</h4>
+                              <h4 class="card-title">HTML5 Fullscreen API</h4>
                               <p class="card-text">
                                 有些 in-app Browser 瀏覽器，無法使用 HTML5 Fullscreen API 讓網頁全螢幕。
                               </p>          
@@ -270,6 +293,18 @@
                 win.document.write("<input type='button' value='關閉此彈跳視窗' onclick='window.close()'>");
                 win.document.write("<input type='button' value='刷新父窗口' onclick='window.opener.location.reload()'>");
             }
+
+            $('.btn-open-blank-link').on('click', function(){
+                console.log()
+                if (window.opener) {
+                    window.opener.document.getElementById('blankstat').innerHTML('已點選開新視窗')
+                    window.opener.location = "https://www.webhek.com";
+                }
+                else{
+                    $('#blankstat').text('此功能無法使用，window.opener＝'+window.opener)
+                }
+            })
+            
 
             // FB登入 (官方範例)
             function statusChangeCallback(response) {
